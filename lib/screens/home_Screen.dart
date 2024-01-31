@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:local_auth/local_auth.dart';
+import 'package:smart_home_animation/api/local_auth_api.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
-
+  const HomeScreen({Key? key}) : super(key: key);
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
@@ -31,6 +32,45 @@ class _HomeScreenState extends State<HomeScreen> {
     'Shorts',
     'Hoddies',
   ];
+  final LocalAuthentication _localAuth = LocalAuthentication();
+  bool _isBiometricAvailable = false;
+  bool _isAuthenticated = false;
+  String? _errorMessage;
+  @override
+  void initState() {
+    super.initState();
+    _checkBiometricAvailability();
+  }
+
+  Future<void> _checkBiometricAvailability() async {
+    bool canCheckBiometrics = await _localAuth.canCheckBiometrics;
+    setState(() {
+      _isBiometricAvailable = canCheckBiometrics;
+    });
+  }
+
+  Future<void> _authenticate() async {
+    bool isAuthenticated = false;
+    try {
+      isAuthenticated = await _localAuth.authenticate(
+        localizedReason: 'Authenticate to access the app',
+        options: const AuthenticationOptions(
+          stickyAuth: true,
+          biometricOnly: false,
+          useErrorDialogs: true,
+          sensitiveTransaction: true,
+        ), // Set to false if you want to allow fallback options
+      );
+    } catch (e) {
+      setState(() {
+        _errorMessage = e.toString();
+      });
+    }
+    setState(() {
+      _isAuthenticated = isAuthenticated;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,15 +80,23 @@ class _HomeScreenState extends State<HomeScreen> {
         physics: const AlwaysScrollableScrollPhysics(),
         child: Column(
           children: [
-            ListView.builder(
-              padding: EdgeInsets.all(0),
-              physics: const ClampingScrollPhysics(),
-              shrinkWrap: true,
-              itemCount: items.length,
-              itemBuilder: (BuildContext context, int index) {
-                return Text(items[index]);
+            ElevatedButton(
+              onPressed: () {
+                if (_isBiometricAvailable) {
+                  _authenticate();
+                } else {
+                  setState(() {
+                    _errorMessage = 'Biometrics not available on the device';
+                  });
+                }
               },
-            )
+              child: const Text('Biometric'),
+            ),
+            if (_errorMessage != null)
+              Text(
+                _errorMessage!,
+                style: TextStyle(color: Colors.red),
+              ),
           ],
         ),
       ),
@@ -74,60 +122,64 @@ class _HomeScreenState extends State<HomeScreen> {
             unselectedItemColor: Colors.grey,
             items: [
               BottomNavigationBarItem(
-                  icon: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.home,
-                      )
-                    ],
-                  ),
-                  label: "Home"),
+                icon: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.home,
+                    )
+                  ],
+                ),
+                label: "Home",
+              ),
               BottomNavigationBarItem(
-                  icon: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.shop_two,
-                      )
-                    ],
-                  ),
-                  label: "Shop"),
+                icon: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.shop_two,
+                    )
+                  ],
+                ),
+                label: "Shop",
+              ),
               BottomNavigationBarItem(
-                  icon: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.backpack,
-                      )
-                    ],
-                  ),
-                  label: "Bag"),
+                icon: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.backpack,
+                    )
+                  ],
+                ),
+                label: "Bag",
+              ),
               BottomNavigationBarItem(
-                  icon: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.favorite,
-                      )
-                    ],
-                  ),
-                  label: "Favourites"),
+                icon: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.favorite,
+                    )
+                  ],
+                ),
+                label: "Favourites",
+              ),
               BottomNavigationBarItem(
-                  icon: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.person_off_outlined,
-                      )
-                    ],
-                  ),
-                  label: "Profile"),
+                icon: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.person_off_outlined,
+                    )
+                  ],
+                ),
+                label: "Profile",
+              ),
             ],
             onTap: (index) {
               setState(() {
-                currentIndex = index ??
-                    0; // Assuming you have a variable called currentIndex
+                currentIndex = index ?? 0;
               });
             },
           ),
