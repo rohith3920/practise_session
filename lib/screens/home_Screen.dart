@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:local_auth/local_auth.dart';
-import 'package:smart_home_animation/api/local_auth_api.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -100,91 +99,181 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
       ),
-      bottomNavigationBar: ClipRRect(
-        borderRadius: const BorderRadius.only(
-          topRight: Radius.circular(20),
-          topLeft: Radius.circular(20),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: Icon(
+          Icons.add,
         ),
-        child: SizedBox(
-          height: MediaQuery.of(context).size.height * 0.09,
-          child: BottomNavigationBar(
-            type: BottomNavigationBarType.fixed,
-            currentIndex: currentIndex!,
-            showSelectedLabels: true,
-            showUnselectedLabels: true,
-            selectedFontSize: 10,
-            unselectedFontSize: 10,
-            elevation: 80,
-            selectedLabelStyle: TextStyle(color: Colors.red),
-            unselectedLabelStyle: TextStyle(color: Colors.green),
-            backgroundColor: Colors.white,
-            selectedItemColor: Colors.red,
-            unselectedItemColor: Colors.grey,
-            items: [
-              BottomNavigationBarItem(
-                icon: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.home,
-                    )
-                  ],
-                ),
-                label: "Home",
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+
+      bottomNavigationBar: BottomAppBar(
+        shape: CircularNotchedRectangle(),
+        notchMargin: 10,
+        child: Container(
+          height: 60,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  MaterialButton(
+                    minWidth: 40,
+                    onPressed: () {},
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.dashboard,
+                        ),
+                        Text(
+                          'data',
+                        )
+                      ],
+                    ),
+                  ),
+                  MaterialButton(
+                    minWidth: 40,
+                    onPressed: () {},
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.dashboard,
+                        ),
+                        Text(
+                          'data',
+                        )
+                      ],
+                    ),
+                  ),
+                ],
               ),
-              BottomNavigationBarItem(
-                icon: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.shop_two,
-                    )
-                  ],
-                ),
-                label: "Shop",
-              ),
-              BottomNavigationBarItem(
-                icon: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.backpack,
-                    )
-                  ],
-                ),
-                label: "Bag",
-              ),
-              BottomNavigationBarItem(
-                icon: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.favorite,
-                    )
-                  ],
-                ),
-                label: "Favourites",
-              ),
-              BottomNavigationBarItem(
-                icon: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.person_off_outlined,
-                    )
-                  ],
-                ),
-                label: "Profile",
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  MaterialButton(
+                    minWidth: 40,
+                    onPressed: () {},
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.dashboard,
+                        ),
+                        Text(
+                          'data',
+                        )
+                      ],
+                    ),
+                  ),
+                  MaterialButton(
+                    minWidth: 40,
+                    onPressed: () {},
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.dashboard,
+                        ),
+                        Text(
+                          'data',
+                        )
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ],
-            onTap: (index) {
-              setState(() {
-                currentIndex = index ?? 0;
-              });
-            },
           ),
         ),
       ),
+      // bottomNavigationBar: ClipRRect(
+      //   borderRadius: const BorderRadius.only(
+      //     topRight: Radius.circular(20),
+      //     topLeft: Radius.circular(20),
+      //   ),
+      //   child: SizedBox(
+      //     height: MediaQuery.of(context).size.height * 0.09,
+      //     child: BottomNavigationBar(
+      //       type: BottomNavigationBarType.fixed,
+      //       currentIndex: currentIndex!,
+      //       showSelectedLabels: true,
+      //       showUnselectedLabels: true,
+      //       selectedFontSize: 10,
+      //       unselectedFontSize: 10,
+      //       elevation: 80,
+      //       selectedLabelStyle: TextStyle(color: Colors.red),
+      //       unselectedLabelStyle: TextStyle(color: Colors.green),
+      //       backgroundColor: Colors.white,
+      //       selectedItemColor: Colors.red,
+      //       unselectedItemColor: Colors.grey,
+      //       items: [
+      //         BottomNavigationBarItem(
+      //           icon: Row(
+      //             mainAxisAlignment: MainAxisAlignment.center,
+      //             children: [
+      //               Icon(
+      //                 Icons.home,
+      //               )
+      //             ],
+      //           ),
+      //           label: "Home",
+      //         ),
+      //         BottomNavigationBarItem(
+      //           icon: Row(
+      //             mainAxisAlignment: MainAxisAlignment.center,
+      //             children: [
+      //               Icon(
+      //                 Icons.shop_two,
+      //               )
+      //             ],
+      //           ),
+      //           label: "Shop",
+      //         ),
+      //         BottomNavigationBarItem(
+      //           icon: Row(
+      //             mainAxisAlignment: MainAxisAlignment.center,
+      //             children: [
+      //               Icon(
+      //                 Icons.backpack,
+      //               )
+      //             ],
+      //           ),
+      //           label: "Bag",
+      //         ),
+      //         BottomNavigationBarItem(
+      //           icon: Row(
+      //             mainAxisAlignment: MainAxisAlignment.center,
+      //             children: [
+      //               Icon(
+      //                 Icons.favorite,
+      //               )
+      //             ],
+      //           ),
+      //           label: "Favourites",
+      //         ),
+      //         BottomNavigationBarItem(
+      //           icon: Row(
+      //             mainAxisAlignment: MainAxisAlignment.center,
+      //             children: [
+      //               Icon(
+      //                 Icons.person_off_outlined,
+      //               )
+      //             ],
+      //           ),
+      //           label: "Profile",
+      //         ),
+      //       ],
+      //       onTap: (index) {
+      //         setState(() {
+      //           currentIndex = index ?? 0;
+      //         });
+      //       },
+      //     ),
+      //   ),
+      // ),
     );
   }
 }
